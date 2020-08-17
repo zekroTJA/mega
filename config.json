@@ -1,11 +1,11 @@
 {
-    "baseURL": "http://localhost:5001/",
-    "appPort": 5001,
-    "cooldown": 60, 
-    "expiration": 24,
-    "redis": {
-        "host": "10.23.0.109",
-        "port": 6379,
-        "db": 0
-    }
+  "baseURL": "http://localhost:5001/",
+  "appPort": 5001,
+  "cooldown": 60,
+  "expiration": 24,
+  "redis": {
+    "host": "127.0.0.1",
+    "port": 6379,
+    "db": 0
+  }
 }
