@@ -4,7 +4,7 @@
 
 A ~~mini~~ mega URL ~~shortener~~ biggener which I did as a project for fun.
 
-As you can see, this is a fork of rmcproductions' [mini](https://github.com/rmcproductions/mini) project, because who needs shot links when you can have massively thick, heavy, fat links with a length of around 2k characters?
+As you can see, this is a fork of rmcproductions' [mini](https://github.com/rmcproductions/mini) project, because who needs short links when you can have massively thick, heavy, fat links with a length of around 2k characters?
 
 I mean, what is this?  
 ![](https://i.zekro.de/Discord_okIscHED18.png)
