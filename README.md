@@ -2,7 +2,7 @@
   <img src="https://github.com/rmcproductions/mini/blob/master/public/images/Unbenannt.png?raw=true">
 </p>
 
-A mini URL shortener which I did as a project for fun.
+A mini URL ~~shortener~~ biggener which I did as a project for fun.
 
 ## How to set up
 1. Clone or download the repo.
