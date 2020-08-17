@@ -1,11 +1,11 @@
-"use strict";
+'use strict';
 
-const express = require("express");
-const md5 = require("md5");
+const express = require('express');
+const md5 = require('md5');
 
-const config = require("./../config.json");
-const redis = require("../modules/redis");
-const getID = require("../modules/idgenerator");
+const config = require('./../config.json');
+const redis = require('../modules/redis');
+const getID = require('../modules/idgenerator');
 
 const router = express.Router();
 const lastRequest = {};
@@ -18,13 +18,13 @@ const db = redis(
 );
 
 /* GET home page. */
-router.get("/", function (req, res, next) {
+router.get('/', function (req, res, next) {
   console.log(router.db);
-  res.render("index", { title: "mega" });
+  res.render('index', { title: 'mega' });
 });
 
 /* GET forwarding page. */
-router.get("/*", function (req, res, next) {
+router.get('/*', function (req, res, next) {
   getBigLink(req.params[0], (err, link) => {
     if (err) res.status(500).send(err);
     else if (link) res.redirect(link);
@@ -33,25 +33,26 @@ router.get("/*", function (req, res, next) {
 });
 
 /* POST API biggen. */
-router.post("/biggen", function (req, res, next) {
+router.post('/biggen', function (req, res, next) {
   if (req.body.urlToBig.length >= 1000) return res.sendStatus(413);
   if (!validateURL(req.body.urlToBig)) return res.sendStatus(406);
 
-  let remoteIP = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+  const remoteIP =
+    req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   if (
     lastRequest[remoteIP] &&
     (new Date() - lastRequest[remoteIP]) / 1000 < (config.cooldown || 60)
   )
     return res.sendStatus(429);
 
-  let urlID = getID();
+  const urlID = getID();
   lastRequest[remoteIP] = new Date();
 
   setBigLink(urlID, req.body.urlToBig, (err) => {
     if (err) {
       res.status(500).send(err);
     } else {
-      res.set("Content-Type", "application/json");
+      res.set('Content-Type', 'application/json');
       res.status(200).send({
         id: urlID,
         url: config.baseURL + urlID,
@@ -69,7 +70,7 @@ module.exports = router;
  * @returns validity
  */
 function validateURL(inp) {
-  let urlReg = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/; // thanks to https://urlregex.com
+  const urlReg = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/; // thanks to https://urlregex.com
   return urlReg.test(inp);
 }
 
@@ -103,6 +104,5 @@ function setBigLink(key, link, cb) {
  */
 function getBigLink(key, cb) {
   key = md5(key);
-  console.log(key);
   db.get(key, cb);
 }
